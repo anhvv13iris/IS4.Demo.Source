@@ -15,8 +15,8 @@ using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
-using Skoruba.IdentityServer4.Admin.EntityFramework.Shared.DbContexts;
 using Skoruba.IdentityServer4.Admin.EntityFramework.Shared.Entities.Identity;
+using Skoruba.IdentityServer4.Admin.EntityFramework.Shared.DbContexts;
 
 namespace AuthServer
 {
@@ -44,7 +44,7 @@ namespace AuthServer
                 .AddEntityFrameworkStores<AdminIdentityDbContext>()
                 .AddDefaultTokenProviders();
 
-            //services.AddSession(options => options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.None);
+            services.AddSession(options => options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.None);
 
 
             var builder = services.AddIdentityServer(options =>
@@ -78,7 +78,7 @@ namespace AuthServer
             services.ConfigureApplicationCookie(options =>
             {
                 options.ExpireTimeSpan = TimeSpan.FromDays(30);
-                options.SlidingExpiration = false;
+                options.SlidingExpiration = true;
             });
 
             // not recommended for production - you need to store your key material somewhere secure
@@ -105,13 +105,13 @@ namespace AuthServer
                 app.UseDeveloperExceptionPage();
                 //app.UseDatabaseErrorPage();
             }
-            InitializeDatabase(app);
+            //InitializeDatabase(app);
 
             app.UseStaticFiles();
 
+            app.UseAuthentication();
             app.UseRouting();
             app.UseIdentityServer();
-            app.UseAuthentication();
             app.UseAuthorization();
             //app.UseEndpoints(endpoints =>
             //{
@@ -133,7 +133,7 @@ namespace AuthServer
 
                 var context = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
                 context.Database.Migrate();
-                if (context.Clients.Any())
+                if (!context.Clients.Any())
                 {
                     foreach (var client in Config.Clients)
                     {
@@ -142,7 +142,7 @@ namespace AuthServer
                     context.SaveChanges();
                 }
 
-                if (context.IdentityResources.Any())
+                if (!context.IdentityResources.Any())
                 {
                     foreach (var resource in Config.IdentityResources)
                     {
@@ -151,7 +151,7 @@ namespace AuthServer
                     context.SaveChanges();
                 }
 
-                if (context.ApiResources.Any())
+                if (!context.ApiResources.Any())
                 {
                     foreach (var resource in Config.GetApis)
                     {
@@ -160,7 +160,7 @@ namespace AuthServer
                     context.SaveChanges();
                 }
 
-                if (context.ApiScopes.Any())
+                if (!context.ApiScopes.Any())
                 {
                     foreach (var resource in Config.ApiScopes)
                     {

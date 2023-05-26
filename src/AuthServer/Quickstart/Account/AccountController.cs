@@ -211,12 +211,9 @@ namespace IdentityServerHost.Quickstart.UI
             {
                 // delete local authentication cookie
                 await _signInManager.SignOutAsync();
-                var y = HttpContext.User.Identity.GetSubjectId();
 
                 // raise the logout event
                 await _events.RaiseAsync(new UserLogoutSuccessEvent(User.GetSubjectId(), User.GetDisplayName()));
-
-                var z = HttpContext.User.Identity.GetSubjectId();
             }
 
             //// check if we need to trigger sign-out at an upstream identity provider
@@ -248,8 +245,13 @@ namespace IdentityServerHost.Quickstart.UI
             //    LogoutId = model.LogoutId
             //};
 
-
-            await _persistedGrantService.RemoveAllGrantsAsync(subjectId, null, logout.SessionId);
+            if (!subjectId.IsNullOrEmpty())
+            {
+                await _persistedGrantService.RemoveAllGrantsAsync(subjectId, null, logout.SessionId);
+            } else
+            {
+                return Redirect(vm.PostLogoutRedirectUri);
+            }
 
             return View("LoggedOut", vm);
         }
