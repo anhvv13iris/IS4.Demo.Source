@@ -31,6 +31,7 @@ using Skoruba.IdentityServer4.Admin.EntityFramework.Configuration.PostgreSQL;
 using Skoruba.IdentityServer4.Admin.EntityFramework.Configuration.SqlServer;
 using Skoruba.IdentityServer4.Shared.Configuration.Authentication;
 using Skoruba.IdentityServer4.Shared.Configuration.Configuration.Identity;
+using Skoruba.IdentityServer4.STS.Identity.ProfileService;
 
 namespace Skoruba.IdentityServer4.STS.Identity.Helpers
 {
@@ -358,7 +359,9 @@ namespace Skoruba.IdentityServer4.STS.Identity.Helpers
             var builder = services.AddIdentityServer(options => configurationSection.Bind(options))
                 .AddConfigurationStore<TConfigurationDbContext>()
                 .AddOperationalStore<TPersistedGrantDbContext>()
-                .AddAspNetIdentity<TUserIdentity>();
+                .AddAspNetIdentity<TUserIdentity>()
+                //.AddProfileService<IdentityWithAdditionalClaimsProfileService>()
+                ;
 
             builder.AddCustomSigningCredential(configuration);
             builder.AddCustomValidationKey(configuration);

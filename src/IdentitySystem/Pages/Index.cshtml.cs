@@ -2,19 +2,20 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
-namespace AuthServer.Pages
+namespace IdentitySystem.Pages
 {
-    public class PrivacyModel : PageModel
+    public class IndexModel : PageModel
     {
-        private readonly ILogger<PrivacyModel> _logger;
+        private readonly ILogger<IndexModel> _logger;
 
-        public PrivacyModel(ILogger<PrivacyModel> logger)
+        public IndexModel(ILogger<IndexModel> logger)
         {
             _logger = logger;
         }
 
         public void OnGet()
         {
+
         }
     }
 }

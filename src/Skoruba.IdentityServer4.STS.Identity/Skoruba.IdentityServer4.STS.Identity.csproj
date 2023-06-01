@@ -15,8 +15,6 @@
 		<PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="6.0.1" />
 		<PackageReference Include="AspNetCore.HealthChecks.UI" Version="6.0.2" />
 		<PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="6.0.2" />
-		<PackageReference Include="IdentityServer4.AspNetIdentity" Version="4.1.2" />
-		<PackageReference Include="IdentityServer4.EntityFramework" Version="4.1.2" />
 		<PackageReference Include="Microsoft.AspNetCore.DataProtection.EntityFrameworkCore" Version="6.0.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.1" />
@@ -45,10 +43,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Skoruba.IdentityServer4.Admin.EntityFramework.Configuration\Skoruba.IdentityServer4.Admin.EntityFramework.Configuration.csproj" />
-		<ProjectReference Include="..\Skoruba.IdentityServer4.Admin.EntityFramework.Shared\Skoruba.IdentityServer4.Admin.EntityFramework.Shared.csproj" />
-		<ProjectReference Include="..\Skoruba.IdentityServer4.Shared.Configuration\Skoruba.IdentityServer4.Shared.Configuration.csproj" />
-		<ProjectReference Include="..\Skoruba.IdentityServer4.Shared\Skoruba.IdentityServer4.Shared.csproj" />
+	  <ProjectReference Include="..\IdentityServer4\IdentityServer4.AspNetIdentity\IdentityServer4.AspNetIdentity.csproj" />
+	  <ProjectReference Include="..\IdentityServer4\IdentityServer4.EntityFramework\IdentityServer4.EntityFramework.csproj" />
+	  <ProjectReference Include="..\Skoruba.IdentityServer4.Admin.EntityFramework.Configuration\Skoruba.IdentityServer4.Admin.EntityFramework.Configuration.csproj" />
+	  <ProjectReference Include="..\Skoruba.IdentityServer4.Admin.EntityFramework.Shared\Skoruba.IdentityServer4.Admin.EntityFramework.Shared.csproj" />
+	  <ProjectReference Include="..\Skoruba.IdentityServer4.Shared.Configuration\Skoruba.IdentityServer4.Shared.Configuration.csproj" />
+	  <ProjectReference Include="..\Skoruba.IdentityServer4.Shared\Skoruba.IdentityServer4.Shared.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

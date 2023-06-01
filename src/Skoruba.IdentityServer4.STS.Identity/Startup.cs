@@ -13,6 +13,8 @@ using Skoruba.IdentityServer4.STS.Identity.Configuration.Interfaces;
 using Skoruba.IdentityServer4.STS.Identity.Helpers;
 using System;
 using Skoruba.IdentityServer4.Shared.Configuration.Helpers;
+using System.Configuration;
+using Skoruba.IdentityServer4.Shared.Configuration.Configuration.Common;
 
 namespace Skoruba.IdentityServer4.STS.Identity
 {
@@ -45,6 +47,9 @@ namespace Skoruba.IdentityServer4.STS.Identity
 
             // Add HSTS options
             RegisterHstsOptions(services);
+
+            // Config cookie
+            ConfigurationCookies(services, Configuration);
 
             // Add all dependencies for Asp.Net Core Identity in MVC - these dependencies are injected into generic Controllers
             // Including settings for MVC and Localization
@@ -112,6 +117,17 @@ namespace Skoruba.IdentityServer4.STS.Identity
         public virtual void UseAuthentication(IApplicationBuilder app)
         {
             app.UseIdentityServer();
+        }
+
+        public virtual void ConfigurationCookies(IServiceCollection services, IConfiguration configuration)
+        {
+            var cookieConfiguration = configuration.GetSection(nameof(CookieConfiguration)).Get<CookieConfiguration>();
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.Name = cookieConfiguration.NameIdentifer;
+                options.ExpireTimeSpan = TimeSpan.FromHours(cookieConfiguration.ExpireTimeSpan);
+                options.SlidingExpiration = cookieConfiguration.SlidingExpiration;
+            });
         }
 
         public virtual void RegisterHstsOptions(IServiceCollection services)

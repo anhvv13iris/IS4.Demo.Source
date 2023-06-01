@@ -5,7 +5,7 @@
 using IdentityServer4.Models;
 using System.Collections.Generic;
 
-namespace AuthServer
+namespace IdentitySystem
 {
     public static class Config
     {

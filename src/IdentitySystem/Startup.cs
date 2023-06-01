@@ -6,10 +6,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using AuthServer.ProfileService;
+using IdentitySystem.ProfileService;
 using System.Reflection;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
@@ -17,8 +16,9 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using Skoruba.IdentityServer4.Admin.EntityFramework.Shared.Entities.Identity;
 using Skoruba.IdentityServer4.Admin.EntityFramework.Shared.DbContexts;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace AuthServer
+namespace IdentitySystem
 {
     public class Startup
     {
@@ -44,8 +44,7 @@ namespace AuthServer
                 .AddEntityFrameworkStores<AdminIdentityDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddSession(options => options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.None);
-
+            //services.AddSession(options => options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.None);
 
             var builder = services.AddIdentityServer(options =>
             {
@@ -77,7 +76,8 @@ namespace AuthServer
                 .AddProfileService<IdentityWithAdditionalClaimsProfileService>();
             services.ConfigureApplicationCookie(options =>
             {
-                options.ExpireTimeSpan = TimeSpan.FromDays(30);
+                options.Cookie.Name = "IdentityServer.Cookie";
+                options.ExpireTimeSpan = TimeSpan.FromHours(12);
                 options.SlidingExpiration = true;
             });
 

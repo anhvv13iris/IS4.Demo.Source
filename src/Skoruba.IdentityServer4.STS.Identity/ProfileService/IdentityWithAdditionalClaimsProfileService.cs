@@ -9,7 +9,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace AuthServer.ProfileService
+namespace Skoruba.IdentityServer4.STS.Identity.ProfileService
 {
     public class IdentityWithAdditionalClaimsProfileService : IProfileService
     {
@@ -35,7 +35,7 @@ namespace AuthServer.ProfileService
             var roles = await _userManager.GetRolesAsync(user);
 
             claims.Add(new Claim("username", user.UserName));
-            claims.Add(new Claim("phone", user.PhoneNumber));
+            claims.Add(new Claim("phone", user.PhoneNumber ?? ""));
 
             if (roles.Count > 0)
             {
